@@ -116,7 +116,8 @@ services:
 
   airflow-webserver:
     <<: *airflow-common
-    command: webserver
+    command: >
+      bash -c "pip install apache-airflow-providers-amazon && airflow webserver"
     ports:
       - "${AIRFLOW_PORT:-8080}:8080"
     healthcheck:
@@ -133,7 +134,8 @@ services:
 
   airflow-scheduler:
     <<: *airflow-common
-    command: scheduler
+    command: >
+      bash -c "pip install apache-airflow-providers-amazon && airflow scheduler"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
       interval: 30s
